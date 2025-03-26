@@ -40,9 +40,6 @@ Búsqueda y Filtros:
 Permite buscar órdenes por número de factura, número de cliente, fecha o estado.
 
 🚀 Estructura del Proyecto
-bash
-Copiar
-Editar
 halcon-webapp/
 ├── app.js
 ├── package.json
@@ -74,19 +71,12 @@ halcon-webapp/
     ├── ordersArchived.ejs   # Órdenes archivadas y opción para restaurar
     ├── users.ejs            # Lista de usuarios y creación de nuevos usuarios
     └── userEdit.ejs         # Formulario para editar los datos de un usuario
+
 📥 Instalación y Configuración
 Clonar el repositorio:
-
-bash
-Copiar
-Editar
 git clone https://github.com/Mapka21/halcon-webapp-ev.git
 cd halcon-webapp-ev
 Instalar las dependencias:
-
-bash
-Copiar
-Editar
 npm install
 Configurar la base de datos:
 
@@ -95,23 +85,17 @@ Edita el archivo config/config.json y asegúrate de que los datos (usuario, cont
 Si la base de datos no existe, créala en MySQL (por ejemplo, usando MySQL Workbench o la línea de comandos).
 
 Ejecutar migraciones:
-
-
 npx sequelize-cli db:migrate
+
 Ejecutar seeders:
 
 Si encuentras errores, primero deshaz los seeders anteriores:
-
-
 npx sequelize-cli db:seed:undo:all
 Luego, ejecuta:
-
-
 npx sequelize-cli db:seed:all
 Iniciar el servidor:
-
-
 npm start
+
 Acceder a la aplicación:
 
 Abre http://localhost:3000 en tu navegador.
@@ -192,14 +176,18 @@ Se utiliza como motor de plantillas para renderizar las vistas, permitiendo que 
 
 📥 Instrucciones para Ejecutar
 Instala las dependencias:
-
-
 npm install
 Configura la base de datos y ejecuta las migraciones y seeders:
-
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 Inicia el servidor:
-
 npm start
 Abre http://localhost:3000 para acceder a la aplicación.
+
+Autor y Licencia
+Autor: Marco Zavala Chapa
+
+Matrícula: 2868251
+
+Curso: Diseño de Aplicaciones Web
+
