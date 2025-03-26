@@ -39,39 +39,6 @@ Creación y edición de usuarios, con asignación de roles y estados (activo/ina
 Búsqueda y Filtros:
 Permite buscar órdenes por número de factura, número de cliente, fecha o estado.
 
-🚀 Estructura del Proyecto
-halcon-webapp/
-├── app.js
-├── package.json
-├── config/
-│   └── config.json          # Configuración de la base de datos
-├── controllers/
-│   ├── authController.js    # Lógica de autenticación y login
-│   ├── orderController.js   # Lógica para gestionar órdenes (CRUD, búsquedas, actualización de estado)
-│   └── userController.js    # Lógica para gestionar usuarios
-├── migrations/              # Migraciones de Sequelize
-│   ├── 202503200001-create-user.js
-│   └── 202503200002-create-order.js
-├── middleware/
-│   ├── auth.js              # Middleware para validar JWT (busca token en header o cookie)
-│   └── roleMiddleware.js    # Middleware para validar que el usuario tenga el rol permitido
-├── routes/
-│   ├── authRoutes.js        # Rutas de autenticación (login)
-│   ├── dashboard.js         # Ruta para el dashboard (vista protegida)
-│   ├── orderRoutes.js       # Rutas para la gestión de órdenes (búsqueda, creación, actualización, eliminación, restauración)
-│   └── userRoutes.js        # Rutas para la gestión de usuarios (listar, crear, editar)
-├── seeders/                 # Seeders para poblar la base de datos con datos de prueba
-│   ├── 202503200003-demo-users.js
-│   └── 202503200004-demo-orders.js
-└── views/
-    ├── dashboard.ejs        # Vista del Dashboard (para usuarios autenticados)
-    ├── home.ejs             # Vista principal pública: búsqueda de órdenes e inicio de sesión
-    ├── orderView.ejs        # Detalle de una orden y formulario para actualizar estado/evidencias
-    ├── orders.ejs           # Listado y creación de órdenes
-    ├── ordersArchived.ejs   # Órdenes archivadas y opción para restaurar
-    ├── users.ejs            # Lista de usuarios y creación de nuevos usuarios
-    └── userEdit.ejs         # Formulario para editar los datos de un usuario
-
 📥 Instalación y Configuración
 Clonar el repositorio:
 git clone https://github.com/Mapka21/halcon-webapp-ev.git
