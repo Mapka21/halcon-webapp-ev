@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Halcon - Home</title>
+</head>
+<body>
+  <h1>Buscar Orden</h1>
+  <form action="/orders/search" method="GET">
+    <label for="invoiceNumber">Número de Factura:</label>
+    <input type="text" name="invoiceNumber" id="invoiceNumber" placeholder="Ingresa el número de factura">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <% if (typeof order !== 'undefined' && order) { %>
+    <h2>Detalle de la Orden</h2>
+    <p>Estado: <%= order.status %></p>
+    <% if (order.status === 'Delivered' && order.evidenceDelivered) { %>
+      <p>Foto de entrega:</p>
+      <img src="<%= order.evidenceDelivered %>" alt="Evidencia de entrega" width="200">
+    <% } else if (order.status === 'In process') { %>
+      <p>Orden en proceso</p>
+      <p>Fecha de inicio de proceso: <%= order.orderDate ? order.orderDate.toLocaleString() : '' %></p>
+    <% } %>
+  <% } %>
+
+  <hr>
+
+  <% if (typeof user !== 'undefined' && user) { %>
+    <h2>Dashboard</h2>
+    <p>Bienvenido, <%= user.name %> (<%= user.role %>)</p>
+    <nav>
+      <a href="/users">Gestionar Usuarios</a> |
+      <a href="/orders">Gestionar Órdenes</a> |
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+    <!-- Aquí podrías agregar formularios adicionales para crear o editar órdenes -->
+  <% } else { %>
+    <h2>Iniciar Sesión</h2>
+    <form action="/auth/login" method="POST">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required placeholder="Tu email">
+      <br>
+      <label for="password">Contraseña:</label>
+      <input type="password" name="password" id="password" required placeholder="Tu contraseña">
+      <br>
+      <button type="submit">Login</button>
+    </form>
+  <% } %>
+</body>
+</html>

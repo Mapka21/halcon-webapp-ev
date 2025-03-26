@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Detalle de Orden - Halcon</title>
+</head>
+<body>
+  <h1>Detalle de la Orden</h1>
+  <p>ID: <%= order.id %></p>
+  <p>Factura: <%= order.invoiceNumber %></p>
+  <p>Cliente: <%= order.customerName %></p>
+  <p>Estado Actual: <%= order.status %></p>
+
+  <!-- Si está Delivered, muestra evidencia -->
+  <% if(order.status === 'Delivered' && order.evidenceDelivered) { %>
+    <p>Evidencia de Entrega:</p>
+    <img src="<%= order.evidenceDelivered %>" alt="Evidencia de entrega" width="200">
+  <% } %>
+
+  <!-- Si está In route, muestra evidencia -->
+  <% if(order.status === 'In route' && order.evidenceInRoute) { %>
+    <p>Evidencia en Ruta:</p>
+    <img src="<%= order.evidenceInRoute %>" alt="Evidencia en ruta" width="200">
+  <% } %>
+
+  <!-- Formulario para cambiar el estado de la orden y subir evidencia -->
+  <h2>Actualizar Estado</h2>
+  <form action="/orders/update/<%= order.id %>" method="POST">
+    <label>Estado:</label>
+    <select name="status">
+      <option value="Ordered" <%= order.status === 'Ordered' ? 'selected' : '' %>>Ordered</option>
+      <option value="In process" <%= order.status === 'In process' ? 'selected' : '' %>>In process</option>
+      <option value="In route" <%= order.status === 'In route' ? 'selected' : '' %>>In route</option>
+      <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+    </select>
+    <br><br>
+
+    <!-- Si elegimos In route, podemos asignar evidenceInRoute -->
+    <label>Link Evidencia en Ruta (URL):</label>
+    <input type="text" name="evidenceInRoute" placeholder="http://..." value="<%= order.evidenceInRoute || '' %>">
+    <br><br>
+
+    <!-- Si elegimos Delivered, podemos asignar evidenceDelivered -->
+    <label>Link Evidencia de Entrega (URL):</label>
+    <input type="text" name="evidenceDelivered" placeholder="http://..." value="<%= order.evidenceDelivered || '' %>">
+    <br><br>
+
+    <button type="submit">Actualizar</button>
+  </form>
+
+  <p><a href="/orders">Volver a Órdenes</a></p>
+</body>
+</html>
