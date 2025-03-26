@@ -1,33 +1,45 @@
-Halcon Webapp
-Esta es una aplicación web para el distribuidor de materiales Halcon, desarrollada con Node.js, Express, Sequelize (MySQL), JWT y EJS. La aplicación automatiza el flujo de pedidos y la gestión de usuarios, cumpliendo con los siguientes requerimientos:
+Halcón Web App - Sistema de Gestión de Pedidos
+📌 Descripción General
+Halcón es una aplicación web diseñada para automatizar los procesos internos de un distribuidor de materiales de construcción. El sistema permite a los clientes consultar el estado de sus pedidos y a los empleados gestionar dichos pedidos a través de un panel administrativo.
 
-Búsqueda de órdenes: La vista principal (Home) permite buscar órdenes por número de factura.
+🛠 Tecnologías Utilizadas
+Backend: Node.js con Express
 
-Gestión de órdenes: Se pueden crear, actualizar (cambiando estados), eliminar (lógicamente) y restaurar órdenes.
+Base de Datos: MySQL (gestionada con Sequelize)
 
-Gestión de usuarios: Se pueden crear y editar usuarios, asignándoles roles (Sales, Warehouse, Route, Purchasing).
+Autenticación: JWT (almacenado en cookie httpOnly)
 
-Roles y permisos:
+Vistas: EJS
 
-Sales puede crear órdenes (status por defecto "Ordered").
+Control de Versiones: Git & GitHub
 
-Warehouse puede actualizar el estado de las órdenes (de Ordered a In process y de In process a In route).
+🔑 Características
+Para Clientes
+Seguimiento de Pedidos:
+Los clientes pueden consultar el estado de sus pedidos ingresando el número de factura.
 
-Route es el único rol autorizado para pasar la orden de In route a Delivered, subiendo la evidencia de entrega.
+Para Empleados
+Gestión de Pedidos:
+Permite actualizar el estado de los pedidos a través de las siguientes etapas:
 
-Purchasing (y otros roles) pueden visualizar la información pero no modificarla, según la configuración.
+Ordered: Estado inicial al registrar el pedido.
 
-Autenticación: Se utiliza JWT para la autenticación. El token se guarda en una cookie httpOnly, y se valida en las rutas protegidas mediante un middleware personalizado que además verifica el rol del usuario.
+In process: Actualizado por el área de Almacén cuando el pedido se prepara.
 
-Vistas: Se utilizan plantillas EJS para renderizar las vistas:
+In route: Actualizado por Almacén (o Route) cuando el pedido sale a distribuirse.
 
-Home: Vista pública con el formulario de búsqueda y, dependiendo de si el usuario está autenticado, se muestra el formulario de login o el dashboard con enlaces a la gestión de usuarios y órdenes.
+Delivered: Actualizado por el personal de Ruta al confirmar la entrega, subiendo evidencia (imagen).
 
-Dashboard: Pantalla de bienvenida y acceso a las demás funcionalidades protegidas.
+Panel Administrativo:
 
-Users & Orders: Vistas para listar, crear, editar y gestionar los usuarios y órdenes (accesibles solo a usuarios autenticados).
+Gestión de usuarios con roles (Sales, Warehouse, Route, Purchasing).
 
-Estructura del Proyecto
+Creación y edición de usuarios, con asignación de roles y estados (activo/inactivo).
+
+Búsqueda y Filtros:
+Permite buscar órdenes por número de factura, número de cliente, fecha o estado.
+
+🚀 Estructura del Proyecto
 bash
 Copiar
 Editar
@@ -45,7 +57,7 @@ halcon-webapp/
 │   └── 202503200002-create-order.js
 ├── middleware/
 │   ├── auth.js              # Middleware para validar JWT (busca token en header o cookie)
-│   └── roleMiddleware.js    # Middleware para validar que el usuario tenga el rol permitido para la acción
+│   └── roleMiddleware.js    # Middleware para validar que el usuario tenga el rol permitido
 ├── routes/
 │   ├── authRoutes.js        # Rutas de autenticación (login)
 │   ├── dashboard.js         # Ruta para el dashboard (vista protegida)
@@ -62,7 +74,7 @@ halcon-webapp/
     ├── ordersArchived.ejs   # Órdenes archivadas y opción para restaurar
     ├── users.ejs            # Lista de usuarios y creación de nuevos usuarios
     └── userEdit.ejs         # Formulario para editar los datos de un usuario
-Instalación y Configuración
+📥 Instalación y Configuración
 Clonar el repositorio:
 
 bash
@@ -78,50 +90,49 @@ Editar
 npm install
 Configurar la base de datos:
 
-Edita el archivo config/config.json y verifica que los datos (usuario, contraseña, nombre de la base de datos, host y dialect) sean correctos para tu entorno.
+Edita el archivo config/config.json y asegúrate de que los datos (usuario, contraseña, nombre de la base de datos, host y dialect) sean correctos para tu entorno.
 
-Si la base de datos no existe, créala en MySQL (por ejemplo, usando MySQL Workbench o línea de comandos).
+Si la base de datos no existe, créala en MySQL (por ejemplo, usando MySQL Workbench o la línea de comandos).
 
 Ejecutar migraciones:
 
-bash
-Copiar
-Editar
+
 npx sequelize-cli db:migrate
 Ejecutar seeders:
 
 Si encuentras errores, primero deshaz los seeders anteriores:
 
-bash
-Copiar
-Editar
+
 npx sequelize-cli db:seed:undo:all
 Luego, ejecuta:
 
-bash
-Copiar
-Editar
+
 npx sequelize-cli db:seed:all
-Uso de la Aplicación
-Acceso a la Vista Home
-URL: http://localhost:3000
-En esta vista, verás:
+Iniciar el servidor:
 
-Un formulario para buscar órdenes por número de factura.
 
-Si el usuario no está autenticado, se mostrará el formulario de login.
+npm start
+Acceder a la aplicación:
 
-Si el usuario ya inició sesión, se mostrarán los enlaces al Dashboard y a la gestión de Usuarios y Órdenes.
+Abre http://localhost:3000 en tu navegador.
+
+🔐 Uso de la Aplicación
+Vista Home
+La vista principal permite buscar órdenes por número de factura.
+
+Si el usuario no ha iniciado sesión, se muestra un formulario de login.
+
+Si el usuario está autenticado, se muestra el Dashboard con enlaces a la gestión de usuarios y órdenes.
 
 Autenticación
 Login:
-Envía un POST a /auth/login con los campos:
+Envía un POST a /auth/login con:
 
-email: (por ejemplo, admin@halcon.com)
+email: Por ejemplo, admin@halcon.com
 
-password: (por ejemplo, password123)
+password: Por ejemplo, password123
 
-Al iniciar sesión, el sistema guardará un token JWT en una cookie httpOnly y redirigirá a la vista Home, donde se mostrará el Dashboard.
+Al iniciar sesión, el sistema guardará un token JWT en una cookie httpOnly y redirigirá a la vista Home con el Dashboard visible.
 
 Funcionalidades Protegidas
 Dashboard:
@@ -130,31 +141,31 @@ Muestra una bienvenida y enlaces para gestionar usuarios y órdenes.
 
 Gestión de Usuarios:
 URL: /users
-Permite listar, crear y editar usuarios. Solo es accesible a usuarios autenticados.
+Permite listar, crear y editar usuarios (accesible solo para usuarios autenticados).
 
 Gestión de Órdenes:
 URL: /orders
-Permite crear, actualizar, eliminar (lógicamente) y restaurar órdenes. Las actualizaciones de estado están protegidas según el rol:
+Permite crear, actualizar, eliminar (lógicamente) y restaurar órdenes. Las actualizaciones de estado se restringen por roles:
 
-Sales: Puede crear órdenes.
+Sales: Puede crear órdenes (status por defecto "Ordered").
 
-Warehouse: Puede actualizar el estado de "Ordered" a "In process" y de "In process" a "In route".
+Warehouse: Puede actualizar de Ordered a In process y de In process a In route.
 
-Route: Puede actualizar el estado de "In route" a "Delivered" y subir evidencia de entrega.
+Route: Puede actualizar de In route a Delivered y subir evidencia de entrega.
 
 Búsqueda de Órdenes:
-El formulario en la vista Home permite buscar órdenes por el número de factura y muestra detalles si se encuentra alguna.
+El formulario en Home permite buscar órdenes por número de factura y muestra los detalles si se encuentra alguna.
 
-Flujo de Pruebas
-Inicia sesión con las credenciales de ejemplo definidas en los seeders:
+🧪 Flujo de Pruebas
+Inicia sesión con las credenciales definidas en los seeders:
 
 Admin User (Sales): admin@halcon.com / password123
 
-También se incluyen usuarios de Warehouse, Route y Purchasing para probar roles.
+También se incluyen usuarios para Warehouse, Route y Purchasing.
 
 Prueba el flujo de órdenes:
 
-Como Sales, crea una orden (la orden se crea con estado "Ordered").
+Como Sales, crea una orden (se crea con estado "Ordered").
 
 Como Warehouse, inicia sesión y actualiza la orden:
 
@@ -164,41 +175,31 @@ Como Route, inicia sesión y actualiza la orden:
 
 Cambia el estado de In route a Delivered, subiendo la evidencia correspondiente (URLs de imagen).
 
-Verifica que las restricciones de roles se respeten (por ejemplo, si intentas actualizar la orden a un estado no permitido para tu rol, recibirás un error 403).
+Verifica que las restricciones de roles se respeten. Si se intenta una acción no permitida, el sistema devolverá un error 403.
 
-Consideraciones Técnicas
+🔍 Consideraciones Técnicas
 JWT y Cookies:
-La autenticación se maneja mediante JWT. El token se almacena en una cookie httpOnly y se valida en cada ruta protegida.
+La autenticación se maneja mediante JWT, almacenado en una cookie httpOnly y validado en cada ruta protegida mediante el middleware auth.js.
 
 Middleware de Roles:
 Se utiliza un middleware personalizado (roleMiddleware.js) para asegurar que solo los roles autorizados puedan realizar determinadas operaciones.
 
 Migraciones y Seeders:
-Se utilizan migraciones para crear las tablas y seeders para poblar la base de datos con datos de prueba. Esto facilita la verificación de la funcionalidad sin tener que insertar datos manualmente.
+Se emplean migraciones para crear la estructura de la base de datos y seeders para poblarla con datos de prueba, facilitando la verificación de la funcionalidad.
 
-EJS como Motor de Plantillas:
-Se emplea EJS para renderizar las vistas de la aplicación, permitiendo que la misma vista (por ejemplo, Home) muestre diferentes contenidos dependiendo de si el usuario está autenticado o no.
+EJS:
+Se utiliza como motor de plantillas para renderizar las vistas, permitiendo que una misma vista (por ejemplo, Home) muestre diferentes contenidos según si el usuario está autenticado o no.
 
-Instrucciones de Ejecución
-Instalar dependencias:
+📥 Instrucciones para Ejecutar
+Instala las dependencias:
 
-bash
-Copiar
-Editar
+
 npm install
-Configurar la base de datos y ejecutar migraciones y seeders:
+Configura la base de datos y ejecuta las migraciones y seeders:
 
-bash
-Copiar
-Editar
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
-Iniciar el servidor:
+Inicia el servidor:
 
-bash
-Copiar
-Editar
 npm start
-Acceder a la aplicación:
-
-Navega a http://localhost:3000 para ver la vista Home.
+Abre http://localhost:3000 para acceder a la aplicación.
