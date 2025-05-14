@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Órdenes - Halcon</title>
+</head>
+<body>
+  <h1>Lista de Órdenes</h1>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Factura</th>
+      <th>Cliente</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+    <% orders.forEach(order => { %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.invoiceNumber %></td>
+        <td><%= order.customerName %></td>
+        <td><%= order.status %></td>
+        <td>
+          <a href="/orders/view/<%= order.id %>">Ver</a> |
+          <form action="/orders/delete/<%= order.id %>" method="POST" style="display:inline;">
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+
+  <h2>Crear Orden</h2>
+  <form action="/orders/create" method="POST">
+    <input type="text" name="invoiceNumber" placeholder="Factura" required>
+    <input type="text" name="customerNumber" placeholder="Número de Cliente" required>
+    <input type="text" name="customerName" placeholder="Nombre del Cliente" required>
+    <input type="text" name="fiscalData" placeholder="Datos Fiscales" required>
+    <input type="date" name="orderDate" required>
+    <input type="text" name="deliveryAddress" placeholder="Dirección de Entrega" required>
+    <textarea name="notes" placeholder="Notas adicionales"></textarea>
+    <button type="submit">Crear Orden</button>
+  </form>
+
+  <a href="/orders/archived">Ver Órdenes Archivadas</a>
+</body>
+</html>

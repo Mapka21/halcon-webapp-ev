@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Órdenes Archivadas - Halcon</title>
+</head>
+<body>
+  <h1>Órdenes Archivadas</h1>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Factura</th>
+      <th>Cliente</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+    <% orders.forEach(order => { %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.invoiceNumber %></td>
+        <td><%= order.customerName %></td>
+        <td><%= order.status %></td>
+        <td>
+          <form action="/orders/restore/<%= order.id %>" method="POST" style="display:inline;">
+            <button type="submit">Restaurar</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+  <p><a href="/orders">Volver a Órdenes</a></p>
+</body>
+</html>
