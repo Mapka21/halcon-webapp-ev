@@ -1,0 +1,17 @@
+<%- include('partials/header', { title: 'Editar Usuario', user: user }) %>
+<h1 class="mb-4">Editar Usuario</h1>
+<form action="/users/edit/<%= userToEdit.id %>" method="POST" class="row g-3 mb-5">
+  <div class="col-md-6"><label class="form-label">Nombre</label><input type="text" name="name" class="form-control" value="<%= userToEdit.name %>" required></div>
+  <div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="<%= userToEdit.email %>" required></div>
+  <div class="col-md-6"><label class="form-label">Rol</label><select name="role" class="form-select" required>
+    <option value="Sales" <%= userToEdit.role==='Sales'?'selected':'' %>>Sales</option>
+    <option value="Purchasing" <%= userToEdit.role==='Purchasing'?'selected':'' %>>Purchasing</option>
+    <option value="Warehouse" <%= userToEdit.role==='Warehouse'?'selected':'' %>>Warehouse</option>
+    <option value="Route" <%= userToEdit.role==='Route'?'selected':'' %>>Route</option>
+  </select></div>
+  <div class="col-md-6"><label class="form-label">Estado</label><select name="isActive" class="form-select" required>
+    <option value="true" <%= userToEdit.isActive?'selected':'' %>>Activo</option><option value="false" <%= !userToEdit.isActive?'selected':'' %>>Inactivo</option>
+  </select></div>
+  <div class="col-12"><button class="btn btn-success">Guardar Cambios</button> <a href="/users" class="btn btn-secondary">Cancelar</a></div>
+</form>
+<%- include('partials/footer') %>

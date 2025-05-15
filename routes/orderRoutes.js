@@ -1,25 +1,37 @@
+// routes/orderRoutes.js
 const express = require('express');
 const router = express.Router();
 const orderController = require('../controllers/orderController');
 const auth = require('../middleware/auth');
-const roleMiddleware = require('../middleware/roleMiddleware');
+const role = require('../middleware/roleMiddleware');
 
-// Ruta para buscar una orden por invoiceNumber (pública)
+// 1) Ruta pública de búsqueda desde Home:
 router.get('/search', orderController.searchOrder);
 
-// Rutas protegidas
+// 2) Listar órdenes activas (protegida)
 router.get('/', auth, orderController.getOrders);
+
+// 3) Ver detalle de una orden (protegida)
 router.get('/view/:id', auth, orderController.viewOrder);
+
+// 4) Listar órdenes archivadas (protegida)
 router.get('/archived', auth, orderController.getArchivedOrders);
+
+// 5) Restaurar una orden archivada (protegida)
 router.post('/restore/:id', auth, orderController.restoreOrder);
 
-// Crear orden: solo rol Sales puede crear
-router.post('/create', auth, roleMiddleware(['Sales']), orderController.createOrder);
+// 6) Crear nueva orden (solo Sales)
+router.post('/create', auth, role(['Sales']), orderController.createOrder);
 
-// Actualizar orden: solo Warehouse o Route pueden actualizar estado
-router.post('/update/:id', auth, roleMiddleware(['Warehouse', 'Route']), orderController.updateOrder);
+// 7) Actualizar estado/evidencias (Warehouse y Route)
+router.post(
+  '/update/:id',
+  auth,
+  role(['Warehouse', 'Route']),
+  orderController.updateOrder
+);
 
-// Eliminar orden (lógicamente)
+// 8) Eliminar (archivar) orden (protegida)
 router.post('/delete/:id', auth, orderController.deleteOrder);
 
 module.exports = router;

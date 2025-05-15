@@ -1,278 +1,178 @@
-# Halcón Web App - Sistema de Gestión de Pedidos
 
-## 📌 Descripción General  
-Halcón es una aplicación web diseñada para automatizar los procesos internos de un distribuidor de materiales de construcción. El sistema permite a los clientes consultar el estado de sus pedidos y a los empleados gestionar dichos pedidos a través de un panel administrativo.
+# Halcón Web App – Sistema de Gestión de Pedidos
 
-## 🛠 Tecnologías Utilizadas  
-- **Backend:** Node.js con Express  
-- **Base de Datos:** MySQL (gestionada con Sequelize)  
-- **Autenticación:** JWT (almacenado en cookie httpOnly)  
-- **Vistas:** EJS  
-- **Control de Versiones:** Git & GitHub
+**Halcon** es una aplicación web para un distribuidor de materiales de construcción que permite a:
 
-## 🔑 Características  
-### Para Clientes  
-- **Seguimiento de Pedidos:**  
-  Los clientes pueden consultar el estado de sus pedidos ingresando el número de factura.
+- **Clientes**: Consultar el estado de sus pedidos (número de cliente + factura).
+- **Empleados**: Gestionar usuarios y pedidos con roles y permisos.
 
-### Para Empleados  
-- **Gestión de Pedidos:**  
-  Permite actualizar el estado de los pedidos a través de las siguientes etapas:  
-  - **Ordered:** Estado inicial al registrar el pedido.  
-  - **In process:** Actualizado por el área de Almacén cuando el pedido se prepara.  
-  - **In route:** Actualizado por Almacén (o Route) cuando el pedido sale a distribuirse.  
-  - **Delivered:** Actualizado por el personal de Ruta al confirmar la ent
+---
 
-rega, subiendo evidencia (imagen).  
-- **Panel Administrativo:**  
-  - Gestión de usuarios con roles (Sales, Warehouse, Route, Purchasing).  
-  - Creación y edición de usuarios, con asignación de roles y estados (activo/inactivo).  
-- **Búsqueda y Filtros:**  
-  Permite buscar órdenes por número de factura, número de cliente, fecha o estado.
+## 🛠 Tecnologías
 
-## 🚀 Estructura del Proyecto
+- **Backend**: Node.js, Express  
+- **ORM**: Sequelize (MySQL)  
+- **Autenticación**: JWT + cookies httpOnly  
+- **Plantillas**: EJS  
+- **Estilos**: Bootstrap 5  
+- **Notificaciones**: Toastr + jQuery  
 
-```
-halcon-webapp/
-├── app.js
-├── package.json
-├── config/
-│   └── config.json          # Configuración de la base de datos
-├── controllers/
-│   ├── authController.js    # Lógica de autenticación y login
-│   ├── orderController.js   # Lógica para gestionar órdenes (CRUD, búsquedas, actualización de estado)
-│   └── userController.js    # Lógica para gestionar usuarios
-├── migrations/              # Migraciones de Sequelize
-│   ├── 202503200001-create-user.js
-│   └── 202503200002-create-order.js
-├── middleware/
-│   ├── auth.js              # Middleware para validar JWT (busca token en header o cookie)
-│   └── roleMiddleware.js    # Middleware para validar que el usuario tenga el rol permitido
-├── routes/
-│   ├── authRoutes.js        # Rutas de autenticación (login)
-│   ├── dashboard.js         # Ruta para el dashboard (vista protegida)
-│   ├── orderRoutes.js       # Rutas para la gestión de órdenes (búsqueda, creación, actualización, eliminación, restauración)
-│   └── userRoutes.js        # Rutas para la gestión de usuarios (listar, crear, editar)
-├── seeders/                 # Seeders para poblar la base de datos con datos de prueba
-│   ├── 202503200003-demo-users.js
-│   └── 202503200004-demo-orders.js
-└── views/
-    ├── dashboard.ejs        # Vista del Dashboard (para usuarios autenticados)
-    ├── home.ejs             # Vista principal pública: búsqueda de órdenes e inicio de sesión
-    ├── orderView.ejs        # Detalle de una orden y formulario para actualizar estado/evidencias
-    ├── orders.ejs           # Listado y creación de órdenes
-    ├── ordersArchived.ejs   # Órdenes archivadas y opción para restaurar
-    ├── users.ejs            # Lista de usuarios y creación de nuevos usuarios
-    └── userEdit.ejs         # Formulario para editar los datos de un usuario
-```
+---
 
-## 📥 Instalación y Configuración
+## 🚀 Instalación
 
-1. **Clonar el repositorio:**
-
+1. **Clonar repo**  
    ```bash
    git clone https://github.com/Mapka21/halcon-webapp-ev.git
    cd halcon-webapp-ev
    ```
 
-2. **Instalar las dependencias:**
-
+2. **Instalar dependencias**  
    ```bash
    npm install
    ```
 
-3. **Configurar la base de datos:**
+3. **Configurar base de datos**  
+   - Edita `config/config.json` con tus credenciales de MySQL.  
+   - Crea la base de datos `halcon_db` si no existe.
 
-   - Edita el archivo `config/config.json` con tus credenciales.
-   - Crea la base de datos en MySQL si no existe.
-
-4. **Migraciones y Seeders:**
-
+4. **Migraciones y seeders**  
    ```bash
    npx sequelize-cli db:migrate
    npx sequelize-cli db:seed:all
    ```
 
-5. **Iniciar el servidor:**
-
+5. **Iniciar servidor**  
    ```bash
    npm start
    ```
-
-## 🔐 Uso de la Aplicación
-
-1. Accede a [http://localhost:3000](http://localhost:3000).
-2. Busca órdenes, inicia sesión, gestiona usuarios y órdenes.
-3. Las notificaciones se muestran con Toastr.
-
-## 🧪 Pruebas de Roles
-
-- **Sales:** Crea órdenes.
-- **Warehouse:** Actualiza de Ordered a In process / In route.
-- **Route:** Actualiza de In route a Delivered (sube evidencias).
+   Abre `http://localhost:3000` en tu navegador.
 
 ---
 
-## Autor
+## 🔑 Funcionalidades
 
-Marco Zavala Chapa (2868251)
-=======
-Halcón Web App - Sistema de Gestión de Pedidos
-📌 Descripción General
-Halcón es una aplicación web diseñada para automatizar los procesos internos de un distribuidor de materiales de construcción. El sistema permite a los clientes consultar el estado de sus pedidos y a los empleados gestionar dichos pedidos a través de un panel administrativo.
+### 1. Home / Vista Pública
 
-🛠 Tecnologías Utilizadas
-Backend: Node.js con Express
+- Formulario de búsqueda de órdenes por número de factura.  
+- Muestra estado e imagen de evidencia si está **Delivered**.  
+- Login para empleados.
 
-Base de Datos: MySQL (gestionada con Sequelize)
+### 2. Dashboard
 
-Autenticación: JWT (almacenado en cookie httpOnly)
+- Bienvenida con nombre y rol.  
+- Enlaces a:  
+  - **Usuarios** (`/users`)  
+  - **Órdenes** (`/orders`)  
+  - **Órdenes Archivadas** (`/orders/archived`)
 
-Vistas: EJS
+### 3. Gestión de Usuarios
 
-Control de Versiones: Git & GitHub
+- **Lista** activa/inactiva.  
+- **Crear** usuario con asignación de rol: Sales, Warehouse, Route, Purchasing.  
+- **Editar** datos, rol o estado.
 
-🔑 Características
-Para Clientes
-Seguimiento de Pedidos:
-Los clientes pueden consultar el estado de sus pedidos ingresando el número de factura.
+### 4. Gestión de Órdenes
 
-Para Empleados
-Gestión de Pedidos:
-Permite actualizar el estado de los pedidos a través de las siguientes etapas:
+- **Lista** de todas las órdenes (no borradas) con filtros por estado.  
+- **Crear** nuevas órdenes (Sales).  
+- **Ver** detalle de orden y cambiar estado según rol:  
+  - **Warehouse**: Ordered → In process → In route  
+  - **Route**: In route → Delivered  
+- **Archivar** (soft delete) y **Restaurar** órdenes.
 
-Ordered: Estado inicial al registrar el pedido.
+### 5. Órdenes Archivadas
 
-In process: Actualizado por el área de Almacén cuando el pedido se prepara.
+- Listado de órdenes con `isDeleted = true`.  
+- Restauración individual.
 
-In route: Actualizado por Almacén (o Route) cuando el pedido sale a distribuirse.
+---
 
-Delivered: Actualizado por el personal de Ruta al confirmar la entrega, subiendo evidencia (imagen).
+## 🔒 Seguridad y Permisos
 
-Panel Administrativo:
+- Rutas protegidas por middleware `auth` (JWT).  
+- Middleware `roleMiddleware` controla accesos según rol.  
+- Mensajes de error JSON:  
+  - `No token provided` si no hay sesión.  
+  - `Forbidden` si el rol no tiene permiso.
 
-Gestión de usuarios con roles (Sales, Warehouse, Route, Purchasing).
+---
 
-Creación y edición de usuarios, con asignación de roles y estados (activo/inactivo).
+## 💬 Experiencia de Usuario
 
-Búsqueda y Filtros:
-Permite buscar órdenes por número de factura, número de cliente, fecha o estado.
+- **Bootstrap** para diseño limpio.  
+- **Toastr** para notificaciones tras cada acción (creación, actualización, archivo, restauración).  
+- **Navbar** constante en todas las vistas.
 
-📥 Instalación y Configuración
-Clonar el repositorio:
-git clone https://github.com/Mapka21/halcon-webapp-ev.git
-cd halcon-webapp-ev
-Instalar las dependencias:
-npm install
-Configurar la base de datos:
+---
 
-Edita el archivo config/config.json y asegúrate de que los datos (usuario, contraseña, nombre de la base de datos, host y dialect) sean correctos para tu entorno.
+## 🖼 Capturas
 
-Si la base de datos no existe, créala en MySQL (por ejemplo, usando MySQL Workbench o la línea de comandos).
+En `/docs/capturas.docx` encontrarás todas las capturas que demuestran:
 
-Ejecutar migraciones:
-npx sequelize-cli db:migrate
+1. Home antes y después de login  
+2. Creación de orden y notificación Toastr  
+3. Dashboard con enlaces  
+4. Gestión de Usuarios y Toastr  
+5. Gestión de Órdenes, archivo y restauración con Toastr  
+6. Rutas protegidas y mensajes JSON  
+7. Navegación fluida entre secciones  
 
-Ejecutar seeders:
+---
 
-Si encuentras errores, primero deshaz los seeders anteriores:
-npx sequelize-cli db:seed:undo:all
-Luego, ejecuta:
-npx sequelize-cli db:seed:all
-Iniciar el servidor:
-npm start
+## 📦 Estructura del Proyecto
 
-Acceder a la aplicación:
+```
+halcon-webapp-ev/
+├── app.js
+├── package.json
+├── config/
+│   └── config.json
+├── controllers/
+├── middleware/
+├── migrations/
+├── models/
+├── routes/
+├── seeders/
+└── views/
+    ├── partials/
+    │   ├── header.ejs
+    │   └── footer.ejs
+    ├── home.ejs
+    ├── dashboard.ejs
+    ├── orders.ejs
+    ├── ordersArchived.ejs
+    ├── orderView.ejs
+    ├── users.ejs
+    └── userEdit.ejs
+```
 
-Abre http://localhost:3000 en tu navegador.
+---
 
-🔐 Uso de la Aplicación
-Vista Home
-La vista principal permite buscar órdenes por número de factura.
+## 📤 Cómo actualizar en GitHub
 
-Si el usuario no ha iniciado sesión, se muestra un formulario de login.
+En tu carpeta del proyecto:
 
-Si el usuario está autenticado, se muestra el Dashboard con enlaces a la gestión de usuarios y órdenes.
+1. **Añade cambios**  
+   ```bash
+   git add .
+   ```
 
-Autenticación
-Login:
-Envía un POST a /auth/login con:
+2. **Commit**  
+   ```bash
+   git commit -m "Evidencia 1, 2 y 3: vistas corregidas, Toastr funcional, README final"
+   ```
 
-email: Por ejemplo, admin@halcon.com
+3. **Sincroniza con remoto**  
+   ```bash
+   git pull --rebase origin main
+   ```
 
-password: Por ejemplo, password123
+4. **Resuelve conflictos** (si los hay), luego:
 
-Al iniciar sesión, el sistema guardará un token JWT en una cookie httpOnly y redirigirá a la vista Home con el Dashboard visible.
+5. **Push**  
+   ```bash
+   git push origin main
+   ```
 
-Funcionalidades Protegidas
-Dashboard:
-URL: /dashboard
-Muestra una bienvenida y enlaces para gestionar usuarios y órdenes.
-
-Gestión de Usuarios:
-URL: /users
-Permite listar, crear y editar usuarios (accesible solo para usuarios autenticados).
-
-Gestión de Órdenes:
-URL: /orders
-Permite crear, actualizar, eliminar (lógicamente) y restaurar órdenes. Las actualizaciones de estado se restringen por roles:
-
-Sales: Puede crear órdenes (status por defecto "Ordered").
-
-Warehouse: Puede actualizar de Ordered a In process y de In process a In route.
-
-Route: Puede actualizar de In route a Delivered y subir evidencia de entrega.
-
-Búsqueda de Órdenes:
-El formulario en Home permite buscar órdenes por número de factura y muestra los detalles si se encuentra alguna.
-
-🧪 Flujo de Pruebas
-Inicia sesión con las credenciales definidas en los seeders:
-
-Admin User (Sales): admin@halcon.com / password123
-
-También se incluyen usuarios para Warehouse, Route y Purchasing.
-
-Prueba el flujo de órdenes:
-
-Como Sales, crea una orden (se crea con estado "Ordered").
-
-Como Warehouse, inicia sesión y actualiza la orden:
-
-Cambia el estado de Ordered a In process y luego a In route.
-
-Como Route, inicia sesión y actualiza la orden:
-
-Cambia el estado de In route a Delivered, subiendo la evidencia correspondiente (URLs de imagen).
-
-Verifica que las restricciones de roles se respeten. Si se intenta una acción no permitida, el sistema devolverá un error 403.
-
-🔍 Consideraciones Técnicas
-JWT y Cookies:
-La autenticación se maneja mediante JWT, almacenado en una cookie httpOnly y validado en cada ruta protegida mediante el middleware auth.js.
-
-Middleware de Roles:
-Se utiliza un middleware personalizado (roleMiddleware.js) para asegurar que solo los roles autorizados puedan realizar determinadas operaciones.
-
-Migraciones y Seeders:
-Se emplean migraciones para crear la estructura de la base de datos y seeders para poblarla con datos de prueba, facilitando la verificación de la funcionalidad.
-
-EJS:
-Se utiliza como motor de plantillas para renderizar las vistas, permitiendo que una misma vista (por ejemplo, Home) muestre diferentes contenidos según si el usuario está autenticado o no.
-
-📥 Instrucciones para Ejecutar
-Instala las dependencias:
-npm install
-Configura la base de datos y ejecuta las migraciones y seeders:
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
-Inicia el servidor:
-npm start
-Abre http://localhost:3000 para acceder a la aplicación.
-
-Autor y Licencia
-Autor: Marco Zavala Chapa
-
-Matrícula: 2868251
-
-Curso: Diseño de Aplicaciones Web
+¡Y listo! Tu repositorio quedará actualizado con el README final y todas las correcciones.

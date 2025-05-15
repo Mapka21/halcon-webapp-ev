@@ -1,52 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Detalle de Orden - Halcon</title>
-</head>
-<body>
-  <h1>Detalle de la Orden</h1>
-  <p>ID: <%= order.id %></p>
-  <p>Factura: <%= order.invoiceNumber %></p>
-  <p>Cliente: <%= order.customerName %></p>
-  <p>Estado Actual: <%= order.status %></p>
-
-  <!-- Si está Delivered, muestra evidencia -->
-  <% if(order.status === 'Delivered' && order.evidenceDelivered) { %>
-    <p>Evidencia de Entrega:</p>
-    <img src="<%= order.evidenceDelivered %>" alt="Evidencia de entrega" width="200">
-  <% } %>
-
-  <!-- Si está In route, muestra evidencia -->
-  <% if(order.status === 'In route' && order.evidenceInRoute) { %>
-    <p>Evidencia en Ruta:</p>
-    <img src="<%= order.evidenceInRoute %>" alt="Evidencia en ruta" width="200">
-  <% } %>
-
-  <!-- Formulario para cambiar el estado de la orden y subir evidencia -->
-  <h2>Actualizar Estado</h2>
-  <form action="/orders/update/<%= order.id %>" method="POST">
-    <label>Estado:</label>
-    <select name="status">
-      <option value="Ordered" <%= order.status === 'Ordered' ? 'selected' : '' %>>Ordered</option>
-      <option value="In process" <%= order.status === 'In process' ? 'selected' : '' %>>In process</option>
-      <option value="In route" <%= order.status === 'In route' ? 'selected' : '' %>>In route</option>
-      <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-    </select>
-    <br><br>
-
-    <!-- Si elegimos In route, podemos asignar evidenceInRoute -->
-    <label>Link Evidencia en Ruta (URL):</label>
-    <input type="text" name="evidenceInRoute" placeholder="http://..." value="<%= order.evidenceInRoute || '' %>">
-    <br><br>
-
-    <!-- Si elegimos Delivered, podemos asignar evidenceDelivered -->
-    <label>Link Evidencia de Entrega (URL):</label>
-    <input type="text" name="evidenceDelivered" placeholder="http://..." value="<%= order.evidenceDelivered || '' %>">
-    <br><br>
-
-    <button type="submit">Actualizar</button>
-  </form>
-
-  <p><a href="/orders">Volver a Órdenes</a></p>
-</body>
-</html>
+<%- include('partials/header', { title: 'Detalle de la Orden', user: user }) %>
+<div class="card mb-5">
+  <div class="card-header"><h2>Detalle de la Orden</h2></div>
+  <div class="card-body">
+    <p><strong>ID:</strong> <%= order.id %></p>
+    <p><strong>Factura:</strong> <%= order.invoiceNumber %></p>
+    <p><strong>Cliente:</strong> <%= order.customerName %></p>
+    <p><strong>Estado:</strong> <%= order.status %></p>
+    <h3 class="mt-4">Actualizar Estado</h3>
+    <form action="/orders/update/<%= order.id %>" method="POST" class="row g-3 mb-4">
+      <div class="col-md-4"><select name="status" class="form-select">
+        <% ['Ordered','In process','In route','Delivered'].forEach(s=>{ %>
+          <option value="<%= s %>" <%= order.status===s?'selected':'' %>><%= s %></option>
+        <% }) %></select></div>
+      <div class="col-md-4"><input type="text" name="evidenceInRoute" class="form-control" placeholder="Evidencia en ruta" value="<%= order.evidenceInRoute||'' %>"></div>
+      <div class="col-md-4"><input type="text" name="evidenceDelivered" class="form-control" placeholder="Evidencia de entrega" value="<%= order.evidenceDelivered||'' %>"></div>
+      <div class="col-12"><button class="btn btn-primary">Actualizar</button> <a href="/orders" class="btn btn-secondary">Volver</a></div>
+    </form>
+    <% if(order.status==='Delivered'&&order.evidenceDelivered){ %>
+      <h3>Evidencia de Entrega</h3>
+      <img src="<%= order.evidenceDelivered %>" class="img-fluid rounded" alt="Evidencia">
+    <% } %>
+  </div>
+</div>
+<%- include('partials/footer') %>

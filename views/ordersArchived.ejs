@@ -1,32 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Órdenes Archivadas - Halcon</title>
-</head>
-<body>
-  <h1>Órdenes Archivadas</h1>
-  <table border="1">
-    <tr>
-      <th>ID</th>
-      <th>Factura</th>
-      <th>Cliente</th>
-      <th>Estado</th>
-      <th>Acciones</th>
-    </tr>
+<%- include('partials/header', { title: 'Órdenes Archivadas', user: user }) %>
+<h1 class="mb-4">Órdenes Archivadas</h1>
+<table class="table table-bordered">
+  <thead class="table-light"><tr><th>ID</th><th>Factura</th><th>Cliente</th><th>Estado</th><th>Acciones</th></tr></thead>
+  <tbody>
     <% orders.forEach(order => { %>
-      <tr>
-        <td><%= order.id %></td>
-        <td><%= order.invoiceNumber %></td>
-        <td><%= order.customerName %></td>
-        <td><%= order.status %></td>
-        <td>
-          <form action="/orders/restore/<%= order.id %>" method="POST" style="display:inline;">
-            <button type="submit">Restaurar</button>
-          </form>
-        </td>
-      </tr>
-    <% }); %>
-  </table>
-  <p><a href="/orders">Volver a Órdenes</a></p>
-</body>
-</html>
+    <tr>
+      <td><%= order.id %></td><td><%= order.invoiceNumber %></td><td><%= order.customerName %></td><td><%= order.status %></td>
+      <td><form action="/orders/restore/<%= order.id %>" method="POST" class="d-inline"><button class="btn btn-sm btn-success">Restaurar</button></form></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+<a href="/orders" class="btn btn-secondary">Volver</a>
+<%- include('partials/footer') %>

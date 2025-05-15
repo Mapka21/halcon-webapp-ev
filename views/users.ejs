@@ -1,45 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Usuarios - Halcon</title>
-</head>
-<body>
-  <h1>Lista de Usuarios</h1>
-  <table border="1">
+<%- include('partials/header', { title: 'Usuarios', user: user }) %>
+<h1 class="mb-4">Gestión de Usuarios</h1>
+<table class="table table-striped mb-4">
+  <thead class="table-light"><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+  <tbody>
+    <% users.forEach(u=>{ %>
     <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Rol</th>
-      <th>Estado</th>
-      <th>Acciones</th>
+      <td><%= u.id %></td><td><%= u.name %></td><td><%= u.email %></td><td><%= u.role %></td><td><%= u.isActive?'Activo':'Inactivo' %></td>
+      <td><a href="/users/edit/<%= u.id %>" class="btn btn-sm btn-warning">Editar</a></td>
     </tr>
-    <% users.forEach(user => { %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td><%= user.isActive ? 'Activo' : 'Inactivo' %></td>
-        <td>
-          <a href="/users/edit/<%= user.id %>">Editar</a>
-        </td>
-      </tr>
-    <% }); %>
-  </table>
-
-  <h2>Crear Nuevo Usuario</h2>
-  <form action="/users/create" method="POST">
-    <input type="text" name="name" placeholder="Nombre" required>
-    <input type="email" name="email" placeholder="Correo" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <select name="role" required>
-      <option value="Sales">Sales</option>
-      <option value="Purchasing">Purchasing</option>
-      <option value="Warehouse">Warehouse</option>
-      <option value="Route">Route</option>
-    </select>
-    <button type="submit">Crear Usuario</button>
-  </form>
-</body>
-</html>
+    <% }) %>
+  </tbody>
+</table>
+<h2 class="mb-3">Crear Nuevo Usuario</h2>
+<form action="/users/create" method="POST" class="row g-3 mb-5">
+  <div class="col-md-6"><input type="text" name="name" class="form-control" placeholder="Nombre" required></div>
+  <div class="col-md-6"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
+  <div class="col-md-6"><input type="password" name="password" class="form-control" placeholder="Contraseña" required></div>
+  <div class="col-md-6"><select name="role" class="form-select" required>
+    <option value="Sales">Sales</option><option value="Purchasing">Purchasing</option><option value="Warehouse">Warehouse</option><option value="Route">Route</option>
+  </select></div>
+  <div class="col-12"><button class="btn btn-primary">Crear Usuario</button></div>
+</form>
+<%- include('partials/footer') %>

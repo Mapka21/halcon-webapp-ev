@@ -1,0 +1,25 @@
+</div> <!-- /container -->
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery (necesario para Toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Inicializar Toastr -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('success')) {
+      toastr.success(decodeURIComponent(params.get('success')));
+    }
+    if (params.has('error')) {
+      toastr.error(decodeURIComponent(params.get('error')));
+    }
+  });
+</script>
+</body>
+</html>

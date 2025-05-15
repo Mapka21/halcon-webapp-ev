@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Dashboard - Halcon</title>
-</head>
-<body>
-  <h1>Dashboard</h1>
-  <p>Bienvenido, <%= user.name %> (<%= user.role %>)</p>
-  <nav>
-    <a href="/users">Gestionar Usuarios</a> |
-    <a href="/orders">Gestionar Órdenes</a> |
-    <a href="/dashboard">Dashboard</a>
-  </nav>
-  <hr>
-  <p>Aquí puedes agregar más funcionalidades propias del Dashboard.</p>
-</body>
-</html>
+<%- include('partials/header', { title: 'Dashboard', user: user }) %>
+<h1 class="mb-4">Dashboard</h1>
+<p>Bienvenido, <%= user.name %> (<%= user.role %>)</p>
+<div class="list-group mb-4">
+  <a href="/users" class="list-group-item list-group-item-action">Gestionar Usuarios</a>
+  <a href="/orders" class="list-group-item list-group-item-action">Gestionar Órdenes</a>
+  <a href="/orders/archived" class="list-group-item list-group-item-action">Órdenes Archivadas</a>
+</div>
+<%- include('partials/footer') %>
